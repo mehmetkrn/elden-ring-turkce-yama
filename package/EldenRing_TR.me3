@@ -1,0 +1,11 @@
+profileVersion = "v1"
+natives = []
+
+[[supports]]
+game = "eldenring"
+
+[[packages]]
+enabled = true
+path = "yama"
+load_after = []
+load_before = []

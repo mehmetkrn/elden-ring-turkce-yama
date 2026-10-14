@@ -1,0 +1,99 @@
+ELDEN RING TÜRKÇE YAMA - KURULUM
+================================
+Türkçe dublaj modu KURULU DEĞİLSE  -> aşağıdaki 1) ve 2) adımlarını izle.
+Türkçe dublaj modu KURULUYSA       -> en alttaki "3) TÜRKÇE DUBLAJ MODU OLANLAR"
+                                      bölümüne geç.
+
+TEST EDİLEN OYUN SÜRÜMÜ
+- Oyun sürümü 1.17 (14 Ekim 2026'da denendi).
+  Kendi sürümüne bakmak için: oyunun ana menüsünde köşede yazan "App Ver." numarası.
+  (Teknik bilgi: eldenring.exe dosya sürümü 2.7.1.0, Steam yapı no 25080141.)
+- Daha yeni sürümlerde de büyük ihtimalle çalışır; yalnızca güncellemeyle
+  eklenen yeni yazılar İngilizce görünür. Güncellemeden sonra oyun hiç açılmazsa
+  yamanın yeni sürümünü bekle.
+
+GEREKENLER
+- Elden Ring'in Steam'den alınmış kopyası (oyun açılırken Steam açık olmalı).
+- Oyun dili İngilizce (English). Türkçe metinler İngilizcenin yerine geçer.
+- Oyun dosyalarının hiçbiri değişmez. Türkçe metinler oyun açılırken
+  "me3" adlı açık kaynak mod yükleyici ile yüklenir.
+- Mod yükleyici oyunu çevrimdışı açar (çevrimiçi oyun yok).
+
+
+1) KURULUM - bir kere yapılır
+-----------------------------
+a. Steam > Kütüphane > ELDEN RING'e sağ tık > Yönet > Yerel dosyalara göz at.
+   Açılan klasördeki "Game" klasörüne gir.
+b. Bu arşivdeki "EldenRing_TR" klasörünü olduğu gibi oraya çıkar.
+   Sonuç şöyle görünmeli:
+      ...\ELDEN RING\Game\EldenRing_TR\EldenRing_TR_Baslat.exe
+      ...\ELDEN RING\Game\EldenRing_TR\EldenRing_TR.me3
+      ...\ELDEN RING\Game\EldenRing_TR\me3\
+      ...\ELDEN RING\Game\EldenRing_TR\yama\
+   (İstersen klasörü masaüstü gibi başka bir yere de koyabilirsin; oyunun
+    nerede kurulu olduğunu Steam'den kendisi bulur.)
+
+
+2) OYUNU AÇMA - üç yoldan birini seç
+------------------------------------
+
+YOL A - BAŞLATICI (en kolayı)
+  EldenRing_TR_Baslat.exe dosyasına çift tıkla. Oyun Türkçe açılır.
+  - Windows "Bilgisayarınız korundu" derse: "Ek bilgi" > "Yine de çalıştır".
+    (Başlatıcı küçük, imzasız bir programdır; tek işi Yol B'deki komutu
+     çalıştırmaktır.)
+  - İstersen masaüstüne kısayol yap: exe'ye sağ tık > Diğer seçenekler >
+    Gönder > Masaüstü (kısayol oluştur).
+
+YOL B - EXE İSTEMEYENLER İÇİN: KOMUTLA AÇ
+  1. EldenRing_TR klasörünün içinde, adres çubuğuna tıkla, "cmd" yaz, Enter.
+     (Bu klasörde açılan bir komut penceresi gelir.)
+  2. Şu satırı yapıştır, Enter'a bas:
+
+     me3\bin\me3.exe launch -p EldenRing_TR.me3 -g eldenring
+
+YOL C - STEAM'DEKİ "OYNA" DÜĞMESİYLE AÇ
+  1. EldenRing_TR klasöründe EldenRing_TR_Baslat.exe'ye Shift + sağ tık >
+     "Yol olarak kopyala". (Exe'nin tam yolu tırnaklı olarak kopyalanır.)
+  2. Steam > Kütüphane > ELDEN RING'e sağ tık > Özellikler > Genel >
+     "Başlatma Seçenekleri" kutusuna yapıştır, sonuna bir boşluk ve %command% ekle.
+     Örnek (senin yolun farklı olabilir):
+
+     "C:\Program Files (x86)\Steam\steamapps\common\ELDEN RING\Game\EldenRing_TR\EldenRing_TR_Baslat.exe" %command%
+
+  3. Artık Steam'de "Oyna"ya basınca oyun Türkçe açılır.
+
+
+3) TÜRKÇE DUBLAJ MODU OLANLAR
+-----------------------------
+Dublaj modu zaten bir mod yükleyiciyle geliyor; başlatıcıya gerek yok.
+a. Bu arşivdeki "EldenRing_TR\yama" klasörünü aç. İçinde "msg" ve "font" var.
+b. Bu iki klasörü şuraya kopyala:
+      ...\ELDEN RING\Game\kaynaklar\me3\config\eldenring-mods\
+   Windows "birleştirilsin mi / üzerine yazılsın mı" derse EVET de.
+   (Dublaj dosyalarına dokunulmaz, sadece metin ve yazı tipi eklenir.)
+c. Oyunu her zamanki gibi "TR Dublaj Mod Başlatıcı" ile aç.
+   Ses Türkçe, yazılar Türkçe olur.
+Kaldırmak için: eldenring-mods içindeki "msg" ve "font" klasörlerini sil.
+
+
+KALDIRMA
+- EldenRing_TR klasörünü sil.
+- Yol C'yi kullandıysan Steam "Başlatma Seçenekleri" kutusunu boşalt.
+
+"VİRÜSLÜ" UYARISI ÇIKARSA
+- Google Drive ya da antivirüs, paketteki me3 mod yükleyicisi yüzünden uyarı
+  verebilir; yanlış alarmdır. me3 açık kaynaktır ve geliştiricisi tarafından
+  imzalıdır (me3\bin\me3.exe > sağ tık > Özellikler > Dijital İmzalar:
+  "Open Source Developer, Gary Tierney").
+- İstersen me3'ü resmi sayfadan kendin indir:
+  https://github.com/garyttierney/me3/releases  ->  me3-windows-amd64.zip
+  İçindekileri bu klasördeki "me3" klasörüne aç (me3\bin\me3.exe oluşmalı).
+
+PAKETİN İÇİNDEKİLER
+- yama\msg, yama\font       : Türkçe metinler ve Türkçe harfli yazı tipi
+- EldenRing_TR.me3          : mod yükleyici ayar dosyası (Not Defteri ile açılabilir)
+- EldenRing_TR_Baslat.exe   : başlatıcı (Yol A ve Yol C için)
+- me3\                      : me3 mod yükleyici (açık kaynak, geliştiricisi tarafından
+                              imzalı; https://github.com/garyttierney/me3 ;
+                              lisans: me3\LICENSE-MIT.txt, me3\LICENSE-APACHE.txt)
