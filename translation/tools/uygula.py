@@ -8,6 +8,11 @@ WITCHY = os.path.join(ANA, "araclar", "Witchy", "WitchyBND.exe")
 KAYNAK = os.path.join(ANA, "orijinal", "msg", "engus")
 DERLE = os.path.join(ANA, "derle", "msg", "engus")
 HEDEF = os.path.join(ANA, "TR_Yama", "Game", "kaynaklar", "me3", "config", "eldenring-mods", "msg", "engus")
+# "python uygula.py orijinal-isim": esya/boss/yer adlari Ingilizce kalan surum (bkz. isim_orijinal.py)
+ORIJINAL_ISIM = "orijinal-isim" in sys.argv[1:]
+if ORIJINAL_ISIM:
+    DERLE = os.path.join(ANA, "derle_orijinal_isim", "msg", "engus")
+    HEDEF = os.path.join(ANA, "TR_Yama_OrijinalIsim", "msg", "engus")
 
 AFINITE_TR = {"Heavy": "Ağır", "Keen": "Keskin", "Quality": "Kaliteli", "Fire": "Ateşli",
               "Flame Art": "Alev Sanatlı", "Lightning": "Yıldırımlı", "Sacred": "Kutsal",
@@ -52,6 +57,10 @@ def ceviri_sozlugu():
 def main():
     bul, n_tr, n_turet = ceviri_sozlugu()
     print("ceviri:", n_tr, "turetme kurali:", n_turet)
+    if ORIJINAL_ISIM:
+        from isim_orijinal import Donusturucu, isim_fmg, isim_haritasi
+        donustur = Donusturucu(isim_haritasi(bul))
+        print("orijinal isim surumu, isim haritasi:", len(donustur.harita))
     if os.path.exists(os.path.dirname(os.path.dirname(DERLE))):
         shutil.rmtree(os.path.dirname(os.path.dirname(DERLE)))
     shutil.copytree(KAYNAK, DERLE)
@@ -64,6 +73,8 @@ def main():
     toplam = cevrilen = 0
     eksik = {}
     for x in glob.glob(os.path.join(DERLE, "*-msgbnd-dcx", "**", "*.fmg.xml"), recursive=True):
+        if ORIJINAL_ISIM and isim_fmg(os.path.basename(x)[:-8]):
+            continue
         agac = ET.parse(x)
         degisti = False
         for t in agac.getroot().iter("text"):
@@ -75,6 +86,8 @@ def main():
             if ceviri is None:
                 eksik[s] = eksik.get(s, 0) + 1
                 continue
+            if ORIJINAL_ISIM:
+                ceviri = donustur(ceviri)
             if ceviri != s:
                 t.text = ceviri
                 degisti = True
@@ -82,7 +95,8 @@ def main():
         if degisti:
             agac.write(x, encoding="utf-8", xml_declaration=True)
     print(f"metin girisi: {toplam}, cevrilen: {cevrilen}, eksik benzersiz: {len(eksik)}")
-    json.dump(sorted(eksik), open(os.path.join(IS, "eksik.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
+    if not ORIJINAL_ISIM:
+        json.dump(sorted(eksik), open(os.path.join(IS, "eksik.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     xmller = glob.glob(os.path.join(DERLE, "*-msgbnd-dcx", "**", "*.fmg.xml"), recursive=True)
     witchy(*xmller)
     klasorler = [p.replace(".msgbnd.dcx", "-msgbnd-dcx") for p in paketler]

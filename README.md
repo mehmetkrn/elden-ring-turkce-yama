@@ -4,6 +4,11 @@ Turkish text translation for ELDEN RING and Shadow of the Erdtree (≈98.5% of a
 descriptions, dialogue, subtitles). Tested on game version **1.17** (Steam).
 
 - Nexus Mods: https://www.nexusmods.com/eldenring/mods/11338
+- Two variants (pick one, do not install both):
+  - **Tam Türkçe** (`EldenRing_TR_Yama.zip`): everything in Turkish, including item, weapon, spell, boss and place names.
+  - **Orijinal İsimler** (`EldenRing_TR_Yama_OrijinalIsimler.zip`): dialogue, descriptions and menus in Turkish;
+    item, weapon, spell, boss and place names stay in the original English, also inside dialogue.
+  Both zips contain the same executables (byte-identical); only `yama/msg` and the install guide differ.
 - No game file is modified. The Turkish text is loaded at launch by the open-source
   [me3](https://github.com/garyttierney/me3) mod loader; the game runs **offline** (EAC disabled).
 
@@ -69,7 +74,8 @@ powershell -ExecutionPolicy Bypass -File package\build_package.ps1 -Yama <folder
 ```
 
 Builds the launcher, downloads the official me3 v0.9.0 zip, verifies the SHA256 of every me3 file,
-and assembles `dist\EldenRing_TR_Yama.zip`.
+and assembles `dist\EldenRing_TR_Yama.zip`. Add `-OrijinalIsim` (with `-Yama` pointing at the variant's data) to build
+`dist\EldenRing_TR_Yama_OrijinalIsimler.zip` with its own install guide (`package/OKU_BENI_KURULUM_OrijinalIsimler.txt`).
 
 ### Building the translation data (`yama/`)
 
@@ -85,6 +91,9 @@ and the Elden Ring binder keys from Nuxe (`res\BinderKeys\EldenRing_PC`).
 4. Translations: `translation/ceviri/NNNN.json` (`{"string id": "Turkish text"}`) – these are the actual
    translation files; `translation/sozluk.md` is the glossary.
 5. `translation/tools/uygula.py` – writes the translations into the FMGs and repacks `msgbnd.dcx` with WitchyBND.
+   `uygula.py orijinal-isim` builds the "Orijinal İsimler" variant: the name FMGs (`*Name`) are left in English and
+   `translation/tools/isim_orijinal.py` replaces Turkish names inside other texts with the English originals,
+   re-deriving the Turkish suffix (`Roundtable Hold'a`, `Volcano Manor'dan`).
 6. `translation/tools/tr_font.py` – adds ı İ ş Ş ğ Ğ glyphs to `eu_std` / `eu_map` fonts.
 
 Paths at the top of the tools point to the author's folders (`D:\Projeler\EldenRingTR`, the Steam game folder);

@@ -1,6 +1,8 @@
 # Assembles the release zip (EldenRing_TR_Yama.zip) exactly as uploaded to Nexus Mods.
 #
 #   powershell -ExecutionPolicy Bypass -File package\build_package.ps1 -Yama <folder containing msg\ and font\>
+#   ... -OrijinalIsim   -> "Orijinal Isimler" variant (EldenRing_TR_Yama_OrijinalIsimler.zip):
+#                          same files, msg\ built with "uygula.py orijinal-isim", its own install guide.
 #
 # -Yama : the generated Turkish data (msg\engus\*.msgbnd.dcx, font\eu_std|eu_map\font.gfx).
 #         These files are produced by translation\tools from YOUR OWN copy of the game
@@ -8,7 +10,7 @@
 #
 # me3 is NOT built here: the official, unmodified me3 v0.9.0 release is downloaded from
 # github.com/garyttierney/me3 and every file is checked against the SHA256 values below.
-param([Parameter(Mandatory)][string]$Yama)
+param([Parameter(Mandatory)][string]$Yama, [switch]$OrijinalIsim)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $dist = Join-Path $root 'dist'
@@ -40,11 +42,16 @@ Copy-Item "$tmp\bin\*" "$out\me3\bin\"
 Copy-Item "$tmp\LICENSE-MIT" "$out\me3\LICENSE-MIT.txt"
 Copy-Item "$tmp\LICENSE-APACHE" "$out\me3\LICENSE-APACHE.txt"
 Copy-Item (Join-Path $Yama 'msg'), (Join-Path $Yama 'font') "$out\yama\" -Recurse
-Copy-Item "$PSScriptRoot\EldenRing_TR.me3", "$PSScriptRoot\OKU_BENI_KURULUM.txt" $out
+Copy-Item "$PSScriptRoot\EldenRing_TR.me3" $out
+if ($OrijinalIsim) {
+    Copy-Item "$PSScriptRoot\OKU_BENI_KURULUM_OrijinalIsimler.txt" "$out\OKU_BENI_KURULUM.txt"
+} else {
+    Copy-Item "$PSScriptRoot\OKU_BENI_KURULUM.txt" $out
+}
 Copy-Item "$dist\EldenRing_TR_Baslat.exe" $out
 
 # 4) Zip
-$zip = Join-Path $dist 'EldenRing_TR_Yama.zip'
+$zip = Join-Path $dist $(if ($OrijinalIsim) { 'EldenRing_TR_Yama_OrijinalIsimler.zip' } else { 'EldenRing_TR_Yama.zip' })
 if (Test-Path $zip) { Remove-Item $zip -Force }
 Compress-Archive -Path $out -DestinationPath $zip
 Write-Host "Built $zip"
